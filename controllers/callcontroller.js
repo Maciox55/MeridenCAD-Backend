@@ -5,7 +5,7 @@ const Call = require('../models/call');
 // @route GET /api/v1/calls/all
 // @access Public
 exports.getCalls =  (req, res, next) => {
-    Call.find().sort({end:1},{'_id':0,'__v':0}).then(calls => {
+    Call.find().sort({end:1}).then(calls => {
 
         res.status(200).json({
             success: true,

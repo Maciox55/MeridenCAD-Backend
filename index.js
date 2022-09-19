@@ -2,10 +2,12 @@ const path = require('path');
 const crawler = require('../Crawler/index');
 const express = require("express");
 const cron = require('node-cron');
+const cors = require('cors');
 const dotenv = require('dotenv');
 const rateLimit = require('express-rate-limit');
 const mongoose = require('mongoose');
 dotenv.config();
+
 
 const limiter = rateLimit({
   windowMs: 5 * 60 * 1000, // 15 minutes
@@ -18,6 +20,7 @@ const limiter = rateLimit({
 const PORT = process.env.PORT || 3001;
 cron.schedule("*/5 * * * *", crawler.crawl);
 const app = express();
+app.use(cors({origin:'http://localhost:4200'}));
 app.use(express.json());
 app.use(express.static(path.resolve(__dirname, '../Frontend-Angular/dist/frontend')));
 
