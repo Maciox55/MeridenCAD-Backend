@@ -68,8 +68,8 @@ exports.getCallsOnDate =  (req, res, next) => {
 
     var daystart = new Date(req.params.date);
     var dayend = new Date(daystart.getFullYear(), daystart.getMonth(), daystart.getDate()+1,daystart.getHours(),daystart.getMinutes(),daystart.getSeconds());  
-    console.log(daystart);
-    console.log(dayend);
+    // console.log(daystart);
+    // console.log(dayend);
     // var startOfToday = new Date(date.getFullYear(), date.getMonth(), date.getDate(),date.getHours(),date.getMinutes(),date.getSeconds());  
     // console.log(startOfToday);
     Call.find({start:{$gte: daystart,$lt: dayend}},{'_id':0,'__v':0}).then(calls => {
@@ -86,4 +86,57 @@ exports.getCallsOnDate =  (req, res, next) => {
         });
     });
     
+}
+
+// @desc Get active calls on date
+// @route GET /api/v1/calls/active/:date
+// @access Public
+exports.getActiveCallsOnDate =  (req, res, next) => {
+
+    var daystart = new Date(req.params.date);
+    var dayend = new Date(daystart.getFullYear(), daystart.getMonth(), daystart.getDate()+1,daystart.getHours(),daystart.getMinutes(),daystart.getSeconds());  
+    // console.log(daystart);
+    // console.log(dayend);
+    // var startOfToday = new Date(date.getFullYear(), date.getMonth(), date.getDate(),date.getHours(),date.getMinutes(),date.getSeconds());  
+    // console.log(startOfToday);
+    Call.find({start:{$gte: daystart,$lt: dayend},end:null},{'_id':0,'__v':0}).then(calls => {
+
+        res.status(200).json({
+            success: true,
+            msg: 'Get all active calls on date',
+            calls
+        });
+    }).catch(err => {
+        res.status(500).json({
+            success: false,
+            msg: 'Server error retrieving active calls on date'
+        });
+    });
+    
+}
+
+// @desc Get closed calls on date
+// @route GET /api/v1/calls/closed/:date
+// @access Public
+exports.getClosedCallsOnDate =  (req, res, next) => {
+
+    var daystart = new Date(req.params.date);
+    var dayend = new Date(daystart.getFullYear(), daystart.getMonth(), daystart.getDate()+1,daystart.getHours(),daystart.getMinutes(),daystart.getSeconds());  
+    // console.log(daystart);
+    // console.log(dayend);
+    // var startOfToday = new Date(date.getFullYear(), date.getMonth(), date.getDate(),date.getHours(),date.getMinutes(),date.getSeconds());  
+    // console.log(startOfToday);
+    Call.find({start:{$gte: daystart,$lt: dayend}},{'_id':0,'__v':0}).then(calls => {
+
+        res.status(200).json({
+            success: true,
+            msg: 'Get all closed calls',
+            calls
+        });
+    }).catch(err => {
+        res.status(500).json({
+            success: false,
+            msg: 'Server error retrieving closed calls'
+        });
+    });
 }
