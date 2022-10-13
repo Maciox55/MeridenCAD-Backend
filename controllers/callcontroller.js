@@ -25,6 +25,7 @@ exports.getCalls =  (req, res, next) => {
 // @route GET /api/v1/calls/active
 // @access Public
 exports.getActiveCalls =  (req, res, next) => {
+
     Call.find({end:null,coordinates:{$ne:null}},{'_id':0,'__v':0}).sort({start:1}).then(calls => {
 
         res.status(200).json({
@@ -92,7 +93,6 @@ exports.getCallsOnDate =  (req, res, next) => {
 // @route GET /api/v1/calls/active/:date
 // @access Public
 exports.getActiveCallsOnDate =  (req, res, next) => {
-
     var daystart = new Date(req.params.date);
     var dayend = new Date(daystart.getFullYear(), daystart.getMonth(), daystart.getDate()+1,daystart.getHours(),daystart.getMinutes(),daystart.getSeconds());  
     // console.log(daystart);
@@ -119,7 +119,6 @@ exports.getActiveCallsOnDate =  (req, res, next) => {
 // @route GET /api/v1/calls/closed/:date
 // @access Public
 exports.getClosedCallsOnDate =  (req, res, next) => {
-
     var daystart = new Date(req.params.date);
     var dayend = new Date(daystart.getFullYear(), daystart.getMonth(), daystart.getDate()+1,daystart.getHours(),daystart.getMinutes(),daystart.getSeconds());  
     // console.log(daystart);
